@@ -1,0 +1,9 @@
+####Global######
+*.iml
+*.ipr
+*.iws
+.idea/
+/target/
+/.settings/
+/nbproject/
+
