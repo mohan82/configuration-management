@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: mohan
+  Date: 5/05/12
+  Time: 5:26 PM
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Simple JSF Facelets page</title>
+</h:head>
+
+<h:body>
+    <ui:composition>
+        <ul class="nav nav-list">
+            <li><h6>Time</h6>
+                <ul class="nav nav-list">
+                    <li>
+                        <h:link outcome="geoCityHome">
+                            <i class="icon-calendar"/>
+                            Find City Information
+                        </h:link>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <h6>Population</h6>
+                <ul class="nav nav-list">
+                    <h:link>
+                        <i class="icon-user"/>
+                        Find City Population
+                    </h:link>
+                </ul>
+            </li>
+        </ul>
+    </ui:composition>
+</h:body>
+</html>
