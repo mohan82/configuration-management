@@ -23,7 +23,7 @@
         <artifactId>ConfigurationManagement</artifactId>
         <version>1.0-SNAPSHOT</version>
     </parent>
-    <artifactId>ConfigurationService</artifactId>
+    <artifactId>Service</artifactId>
     <packaging>jar</packaging>
     <name>GeoService</name>
     <dependencies>
