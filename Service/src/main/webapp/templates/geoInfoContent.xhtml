@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2012. Mohan Ambalavanan
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
+<!--
+  Created by IntelliJ IDEA.
+  User: mohan
+  Date: 12/05/12
+  Time: 8:22 PM
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
+
+<h:head>
+    <title>Simple JSF Facelets page</title>
+</h:head>
+
+<h:body>
+    <ui:composition>
+        <h:panelGroup id="showGeoContent" layout="block"
+                      styleClass="row-fluid">
+            <h:panelGroup id="renderContent" layout="block"
+                          rendered="#{geoInfoDataController.showContent}">
+                <div id="mainContent" class="span12">
+                    <div class="page-header">
+                        <h1> City Information </h1>
+                    </div>
+                    <div class="control-label'">
+                        <h6>Other Names : </h6>
+                        <h:outputText value="#{geoInfoDataController.geoInfoDataBean.nameString}"/>
+                    </div>
+                    <div class="control-label'">
+                        <h6>Time: </h6>
+                        <h:outputText value="#{geoInfoDataController.geoInfoDataBean.currentTime}"/>
+                    </div>
+                    <div class="control-label'">
+                        <h6>Population:</h6>
+                        <h:outputText value="#{geoInfoDataController.geoInfoDataBean.geoInfoData.population}"/>
+                    </div>
+                    <div class="control-label">
+                        <h6>Near By Cities:</h6>
+                        <pre>
+                              <ui:repeat value="#{geoInfoDataController.geoInfoDataBean.findNearestGeoCityNameList}"
+                                         var="cityName">
+                                  <ui:repeat value="#{cityName.names}"
+                                             var="name">
+                                      <h:outputText value="#{name}"/>
+                                  </ui:repeat>
+                              </ui:repeat>
+                        </pre>
+                    </div>
+                    <div class="padding-down"/>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <div id="map"></div>
+                        </div>
+                    </div>
+                </div>
+                <h:outputScript>
+                    var lat =<h:outputText
+                        value="#{geoInfoDataController.geoInfoDataBean.geoInfoData.geoCordinates.latitude}"/>;
+                    var long =<h:outputText
+                        value="#{geoInfoDataController.geoInfoDataBean.geoInfoData.geoCordinates.longitude}"/>;
+                    creativegeoAPI.initGMap(lat,long);
+                </h:outputScript>
+            </h:panelGroup>
+        </h:panelGroup>
+    </ui:composition>
+</h:body>
+</html>
