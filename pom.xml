@@ -35,9 +35,9 @@
         <log4j.version>1.0</log4j.version>
     </properties>
     <modules>
-        <module>ConfigurationService</module>
-        <module>ConfigurationDao</module>
-        <module>ConfigurationWebApp</module>
+        <module>Service</module>
+        <module>Dao</module>
+        <module>WebApp</module>
     </modules>
     <dependencies>
         <dependency>
