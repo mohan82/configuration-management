@@ -1,21 +1,31 @@
 
 
-## Create CM User
-
-createuser  -P  -e configurationmanagement
 
 
-##Create TableSpace
+Step1 :Login to PSQL shell as Postgres and Create Database
+1) su postgres
+2) psql
+3) create database cm;
+4)\q
 
-echo " Creating directory in varlib postgresql"
+Step 2: Create User CM from your *nix shell
+
+createuser  -P  -e cm
+
+Step 3 : Create TableSpace var/lib/postgresql
 
 sudo mkdir -p /var/lib/postgresql/9.1/data/configurationmanagement
 
-echo  " Changing Ownership to Postgres"
+Step 4: Changing Ownership to Postgres
 
-sudo chown -R postgres:postgres /var/lib/postgresql/9.1/data/configurationmanagement
+sudo chown -R postgres:postgres /var/lb/postgresql/9.1/data/configurationmanagement
 
-echo  " Switching to postgres and executing tablespaces.sql from /tmp/"
+Step 5: Create TableSpace
+#Copy tablespaces.sql to /tmp
+
 sudo psql -d postgres -U postgres -f /tmp/tablespaces.sql
+
+
+psql cm -U cm -f create_schema_postgres.sql
 
 
