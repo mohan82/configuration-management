@@ -15,7 +15,9 @@ package com.creative.dao.entity;
 
 import java.nio.channels.UnsupportedAddressTypeException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -26,23 +28,48 @@ import java.util.List;
  */
 public class EntityTestFactory {
 
-    public static enum TestEnvironment {
+    public static enum EnvironmentEnum {
         PROD,
         UAT,
         TEST,
         STAGING
     }
+
     public static final List<Environment> createEnvironments() {
-       String[] environments = {"Test","Prod","UAT"};
-      List<Environment>environmentList = new ArrayList<Environment>(environments.length);
-      for(String environment:environments)
-      {
-          environmentList.add(createEnvironment(environment));
-      }
+        EnvironmentEnum[] enums = EnvironmentEnum.values();
+        List<Environment> environmentList = new ArrayList<Environment>(enums.length);
+        for (EnvironmentEnum environmentEnumE : enums) {
+            environmentList.add(createEnvironment(environmentEnumE.name()));
+        }
         return environmentList;
     }
-    public static final Environment createEnvironment(String name){
-        return  new Environment(name);
+
+    public static final Environment createEnvironment(String name) {
+        return new Environment(name);
 
     }
+
+    public static enum FileEnum {
+        CONFIG_FILE,
+        CODE_FILE,
+        XML_FILE, CSV_FILE;
+    }
+
+    public static final List<File> createFiles() {
+        FileEnum[] files = FileEnum.values();
+        List<File> fileList = new ArrayList<File>(files.length);
+        for (FileEnum fileEnum : files) {
+            fileList.add(createFile(fileEnum.name()));
+
+        }
+        return fileList;
+    }
+
+    public static final File createFile(String name) {
+        return new File(name);
+    }
 }
+
+
+
+

@@ -21,6 +21,9 @@ import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
 import org.apache.log4j.Logger;
 import org.hibernate.*;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import javax.inject.Inject;
@@ -32,8 +35,8 @@ import java.util.List;
 /**
  * @author mohan
  */
-@Named("genericDao")
-@Singleton
+@Repository("genericDao")
+@Scope("prototype")
 /***
  * Generic dao impl class for generic CRUD operations
  */
@@ -48,7 +51,7 @@ public class GenericDaoImpl implements GenericDao {
      * @param sessionFactory
      */
     @Inject
-    public GenericDaoImpl(@Named("sessionFactory") SessionFactory sessionFactory) {
+    public GenericDaoImpl(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 

@@ -27,7 +27,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import static com.creative.dao.entity.EntityTestFactory.*;
-import static com.creative.dao.entity.EntityTestFactory.TestEnvironment.*;
+import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.*;
 import static org.junit.Assert.*;
 
 import javax.inject.Inject;

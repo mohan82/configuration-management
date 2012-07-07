@@ -16,6 +16,9 @@ package com.creative.dao.repository;
 import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
@@ -37,8 +40,8 @@ import java.util.List;
  * batch insert/update/delete  batch operations for
  * any hibernate classes
  */
-@Named("genericBatchDao")
-@Singleton
+@Repository("genericBatchDao")
+@Scope("prototype")
 public class GenericBatchDaoImpl implements GenericBatchDao {
     private static final int DEF_BATCH_SIZE = 30;
     private SessionFactory sessionFactory;
@@ -46,7 +49,7 @@ public class GenericBatchDaoImpl implements GenericBatchDao {
 
     public GenericBatchDaoImpl(){}
     @Inject
-    public GenericBatchDaoImpl(@Named("sessionFactory") SessionFactory sessionFactory) {
+    public GenericBatchDaoImpl(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
