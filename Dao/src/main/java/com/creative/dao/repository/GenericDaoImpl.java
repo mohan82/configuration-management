@@ -37,9 +37,12 @@ import java.util.List;
 /***
  * Generic dao impl class for generic CRUD operations
  */
-public class GenericDaoImpl {
+public class GenericDaoImpl implements GenericDao {
 
     private SessionFactory sessionFactory;
+
+    public GenericDaoImpl() {
+    }
 
     /**
      * @param sessionFactory
@@ -57,8 +60,19 @@ public class GenericDaoImpl {
      * @param t
      * @param <T>
      */
+    @Override
     public <T> void saveOrUpdate(T t) {
         sessionFactory.getCurrentSession().saveOrUpdate(t);
+    }
+
+    /**
+     *
+     * @param t
+     * @param <T>
+     */
+    @Override
+    public <T> void deleteObject(T t) {
+        sessionFactory.getCurrentSession().delete(t);
     }
 
     /**
@@ -72,8 +86,14 @@ public class GenericDaoImpl {
      * @param <T>
      * @return List<T>
      */
-    public <T> List<T> executeNamedQuery(String nameQuery, Class<T> clazz) {
+    @Override
+    public <T> List<T> executeNamedQueryWithOutParams(String nameQuery, Class<T> clazz) {
         return (List<T>) sessionFactory.getCurrentSession().getNamedQuery(nameQuery).list();
+    }
+
+    @Override
+    public Query getNamedQuery(String nameQuery) {
+        return sessionFactory.getCurrentSession().getNamedQuery(nameQuery);
     }
 
     /**
@@ -84,8 +104,14 @@ public class GenericDaoImpl {
      * @param <T>
      * @return
      */
+    @Override
     public <T> List<T> executeQuery(String query, Class<T> clazz) {
         return (List<T>) sessionFactory.getCurrentSession().createQuery(query).list();
+    }
+
+    @Override
+    public <T> List<T> executeQuery(Query query, Class<T> clazz) {
+        return (List<T>) query.list();
     }
 
     /**
@@ -99,6 +125,7 @@ public class GenericDaoImpl {
      * @return
      * @throws IncorrectResultException
      */
+    @Override
     public <T> T findUniqueObject(String query, Class<T> clazz) throws IncorrectResultException {
         List<T> list = executeQuery(query, clazz);
         if (CollectionUtils.isEmpty(list)) {
@@ -120,6 +147,7 @@ public class GenericDaoImpl {
      * @return
      * @throws IdNotFoundException
      */
+    @Override
     public <T> T findByID(Integer id, Class<T> clazz) throws IdNotFoundException {
         try {
             T t = (T) sessionFactory.getCurrentSession().load(clazz, id);

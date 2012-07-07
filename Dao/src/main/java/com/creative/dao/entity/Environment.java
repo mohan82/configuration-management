@@ -24,17 +24,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
- *
  * @author mohan
  */
 @Entity
-@Table(name = "environment", catalog = "cm", schema = "cm", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"name"})})
+@Table(name = "environment", catalog = "cm", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Environment.findAll", query = "SELECT e FROM Environment e"),
-    @NamedQuery(name = "Environment.findByEnvironmentPk", query = "SELECT e FROM Environment e WHERE e.environmentPk = :environmentPk"),
-    @NamedQuery(name = "Environment.findByName", query = "SELECT e FROM Environment e WHERE e.name = :name")})
+        @NamedQuery(name = "Environment.findAll", query = "SELECT e FROM Environment e"),
+        @NamedQuery(name = "Environment.findByEnvironmentPk", query = "SELECT e FROM Environment e WHERE e.environmentPk = :environmentPk"),
+        @NamedQuery(name = "Environment.findByName", query = "SELECT e FROM Environment e WHERE e.name = :name")})
 public class Environment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -51,8 +50,9 @@ public class Environment implements Serializable {
     public Environment() {
     }
 
-    public Environment(Integer environmentPk) {
-        this.environmentPk = environmentPk;
+
+    public Environment(String name) {
+        this.name = name;
     }
 
     public Environment(Integer environmentPk, String name) {
@@ -86,28 +86,30 @@ public class Environment implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (environmentPk != null ? environmentPk.hashCode() : 0);
-        return hash;
-    }
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Environment)) {
-            return false;
-        }
-        Environment other = (Environment) object;
-        if ((this.environmentPk == null && other.environmentPk != null) || (this.environmentPk != null && !this.environmentPk.equals(other.environmentPk))) {
-            return false;
-        }
+        Environment that = (Environment) o;
+
+        if (!environmentPk.equals(that.environmentPk)) return false;
+        if (!name.equals(that.name)) return false;
+
         return true;
     }
 
     @Override
-    public String toString() {
-        return "com.creative.dao.entity.Environment[ environmentPk=" + environmentPk + " ]";
+    public int hashCode() {
+        int result = environmentPk.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
     }
-    
+
+    @Override
+    public String toString() {
+        return "Environment{" +
+                "name='" + name + '\'' +
+                ", environmentPk=" + environmentPk +
+                '}';
+    }
 }

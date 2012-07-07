@@ -39,21 +39,15 @@ import java.util.List;
  */
 @Named("genericBatchDao")
 @Singleton
-public class GenericBatchDaoImpl {
-    private int batchSize;
+public class GenericBatchDaoImpl implements GenericBatchDao {
     private static final int DEF_BATCH_SIZE = 30;
     private SessionFactory sessionFactory;
     private Logger logger = LoggerFactory.getLogger(GenericBatchDaoImpl.class);
 
+    public GenericBatchDaoImpl(){}
     @Inject
-    public GenericBatchDaoImpl(@Named("sessionFactory") SessionFactory sessionFactory, @Named("BATCH_SIZE") int batchSize) {
+    public GenericBatchDaoImpl(@Named("sessionFactory") SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-
-        if (batchSize < DEF_BATCH_SIZE) {
-            this.batchSize = DEF_BATCH_SIZE;
-        } else {
-            this.batchSize = batchSize;
-        }
     }
 
     private static enum BatchType {
@@ -61,20 +55,24 @@ public class GenericBatchDaoImpl {
         BATCH_INSERT, BATCH_DELETE, BATCH_INSERT_OR_UPDATE;
     }
 
+    @Override
     public <T> int executeInsertBatch(List<T> list) {
         return executeBatch(BatchType.BATCH_INSERT, list);
     }
 
+    @Override
     public <T> int executesaveOrUpdateBatch(List<T> list) {
         return executeBatch(BatchType.BATCH_INSERT_OR_UPDATE, list);
     }
 
 
+    @Override
     public <T> int executeDeleteBatch(List<T> list) {
         return executeBatch(BatchType.BATCH_DELETE, list);
 
     }
 
+    @Override
     public int executeUpdate(Query query) {
         Session session = sessionFactory.getCurrentSession();
         session.setCacheMode(CacheMode.IGNORE);
@@ -91,7 +89,8 @@ public class GenericBatchDaoImpl {
         session.setCacheMode(CacheMode.IGNORE);
         session.setFlushMode(FlushMode.MANUAL);
         logger.info("Executing  Batch of size :" + list.size()
-                + " given batch size is:" + batchSize);
+                + " given batch size is:" +DEF_BATCH_SIZE
+        );
 
         for (int i = 0; i < list.size(); i++) {
             switch (batchType) {
@@ -106,7 +105,7 @@ public class GenericBatchDaoImpl {
                 default:
                     // nothing;
             }
-            if (i > 0 && i % batchSize == 0) {
+            if (i > 0 && i % DEF_BATCH_SIZE == 0) {
                 logger.info("Flushing and clearing the cache"
                         + " after row number :" + i);
                 session.flush();

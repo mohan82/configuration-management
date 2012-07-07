@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author mohan
  */
 @Entity
-@Table(name = "file", catalog = "cm", schema = "cm", uniqueConstraints = {
+@Table(name = "file", catalog = "cm",uniqueConstraints = {
     @UniqueConstraint(columnNames = {"name"})})
 @XmlRootElement
 @NamedQueries({
@@ -54,8 +54,8 @@ public class File implements Serializable {
     public File() {
     }
 
-    public File(Integer filePk) {
-        this.filePk = filePk;
+    public File(String name) {
+        this.name=name;
     }
 
     public File(Integer filePk, String name) {

@@ -28,7 +28,7 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author mohan
  */
 @Entity
-@Table(name = "properties_version", catalog = "cm", schema = "cm", uniqueConstraints = {
+@Table(name = "properties_version", catalog = "cm", uniqueConstraints = {
     @UniqueConstraint(columnNames = {"new_value"}),
     @UniqueConstraint(columnNames = {"old_value"})})
 @XmlRootElement

@@ -30,7 +30,7 @@ import static com.creative.dao.repository.TestUtil.*;
  */
 public class GenericBatchDaoImplTest {
 
-    private GenericBatchDaoImpl genericBatchDao;
+    private GenericBatchDao genericBatchDao;
 
     private HibernateParam hibernateParam;
 
@@ -38,7 +38,7 @@ public class GenericBatchDaoImplTest {
     public void init() {
         hibernateParam = new HibernateParam();
         mockHibernateParam(hibernateParam);
-        genericBatchDao = new GenericBatchDaoImpl(hibernateParam.sessionFactory, 100);
+        genericBatchDao = new GenericBatchDaoImpl(hibernateParam.sessionFactory);
     }
 
 

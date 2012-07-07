@@ -16,9 +16,6 @@ package com.creative.dao.repository;
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
 import org.hibernate.HibernateException;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,7 +37,7 @@ import com.creative.dao.repository.TestUtil.HibernateParam;
  * To change this template use File | Settings | File Templates.
  */
 public class GenericDaoImplTest {
-    private GenericDaoImpl genericDao;
+    private GenericDao genericDao;
 
     private HibernateParam hibernateParam = new HibernateParam();
 
@@ -77,11 +74,21 @@ public class GenericDaoImplTest {
     }
 
     @Test
+    public void testGetNamedQuery() throws Exception {
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.getNamedQuery(TEST_STRING)).thenReturn(hibernateParam.query);
+        genericDao.getNamedQuery(TEST_STRING);
+        verify(hibernateParam.session).getNamedQuery(TEST_STRING);
+
+
+    }
+
+    @Test
     public void testExecuteNamedQuery() throws Exception {
         mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
         when(hibernateParam.session.getNamedQuery(TEST_STRING)).thenReturn(hibernateParam.query);
         mockTestIntegerList(hibernateParam.query);
-        List<Integer> integerList = genericDao.executeNamedQuery(TEST_STRING, Integer.class);
+        List<Integer> integerList = genericDao.executeNamedQueryWithOutParams(TEST_STRING, Integer.class);
         assertEquals(TEST_INTEGER_LIST, integerList);
         verify(hibernateParam.query).list();
         verify(hibernateParam.session).getNamedQuery(TEST_STRING);
@@ -95,6 +102,14 @@ public class GenericDaoImplTest {
         assertEquals(TEST_INTEGER_LIST, integerList);
         verifyExecuteQuery();
 
+    }
+
+
+    @Test
+    public void testDeleteObject() throws Exception {
+        mockCurrentSession(hibernateParam.sessionFactory,hibernateParam.session);
+        genericDao.deleteObject(TEST_INTEGER);
+        verify(hibernateParam.session).delete(TEST_INTEGER);
     }
 
     @Test
