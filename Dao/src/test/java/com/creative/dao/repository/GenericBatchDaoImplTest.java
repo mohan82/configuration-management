@@ -13,7 +13,13 @@
 
 package com.creative.dao.repository;
 
+import org.hibernate.*;
+import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+import static com.creative.dao.repository.TestUtil.*;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,23 +29,69 @@ import org.junit.Test;
  * To change this template use File | Settings | File Templates.
  */
 public class GenericBatchDaoImplTest {
+
+    private GenericBatchDaoImpl genericBatchDao;
+
+    private HibernateParam hibernateParam;
+
+    @Before
+    public void init() {
+        hibernateParam = new HibernateParam();
+        mockHibernateParam(hibernateParam);
+        genericBatchDao = new GenericBatchDaoImpl(hibernateParam.sessionFactory, 100);
+    }
+
+
     @Test
     public void testExecuteInsertBatch() throws Exception {
 
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        genericBatchDao.executeInsertBatch(TEST_STRING_LIST);
+        verifySession();
+        for (String s : TEST_STRING_LIST) {
+
+            verify(hibernateParam.session).save(s);
+        }
     }
 
     @Test
-    public void testExecutesaveOrUpdateBatch() throws Exception {
+    public void testExecuteSaveOrUpdateBatch() throws Exception {
 
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        genericBatchDao.executesaveOrUpdateBatch(TEST_STRING_LIST);
+        verifySession();
+        for (String s : TEST_STRING_LIST) {
+
+            verify(hibernateParam.session).saveOrUpdate(s);
+        }
     }
 
     @Test
     public void testExecuteDeleteBatch() throws Exception {
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        genericBatchDao.executeDeleteBatch(TEST_STRING_LIST);
+        verifySession();
+        for (String s : TEST_STRING_LIST) {
 
+            verify(hibernateParam.session).delete(s);
+
+
+        }
     }
 
     @Test
     public void testExecuteUpdate() throws Exception {
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.query.executeUpdate()).thenReturn(TEST_INTEGER);
+        int rows = genericBatchDao.executeUpdate(hibernateParam.query);
+        assertEquals(rows, TEST_INTEGER);
+        verifySession();
+
+    }
+
+    public void verifySession() {
+        verify(hibernateParam.session).setCacheMode(CacheMode.IGNORE);
+        verify(hibernateParam.session).setFlushMode(FlushMode.MANUAL);
 
     }
 }

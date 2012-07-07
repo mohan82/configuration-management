@@ -31,13 +31,14 @@ import java.util.List;
  * Time: 7:31 PM
  *
  */
-@Named("genericBatchDao")
-@Singleton
+
 /***
  * A Simple Generic Batch Util class which provides
  * batch insert/update/delete  batch operations for
  * any hibernate classes
  */
+@Named("genericBatchDao")
+@Singleton
 public class GenericBatchDaoImpl {
     private int batchSize;
     private static final int DEF_BATCH_SIZE = 30;
@@ -45,7 +46,7 @@ public class GenericBatchDaoImpl {
     private Logger logger = LoggerFactory.getLogger(GenericBatchDaoImpl.class);
 
     @Inject
-    public GenericBatchDaoImpl(@Named("sessionFactory") SessionFactory sessionFactory, @Named("batchSize") int batchSize) {
+    public GenericBatchDaoImpl(@Named("sessionFactory") SessionFactory sessionFactory, @Named("BATCH_SIZE") int batchSize) {
         this.sessionFactory = sessionFactory;
 
         if (batchSize < DEF_BATCH_SIZE) {

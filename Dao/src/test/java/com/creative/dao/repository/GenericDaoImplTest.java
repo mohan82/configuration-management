@@ -30,6 +30,8 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static com.creative.dao.repository.TestUtil.*;
 
+import com.creative.dao.repository.TestUtil.HibernateParam;
+
 /**
  * Created with IntelliJ IDEA.
  * User: mohan
@@ -39,17 +41,14 @@ import static com.creative.dao.repository.TestUtil.*;
  */
 public class GenericDaoImplTest {
     private GenericDaoImpl genericDao;
-    private SessionFactory sessionFactory;
-    private Query query;
 
-    private Session session;
+    private HibernateParam hibernateParam = new HibernateParam();
 
     @Before
     public void setUp() throws Exception {
-        sessionFactory = mock(SessionFactory.class);
-        session = mock(Session.class);
-        query = mock(Query.class);
-        genericDao = new GenericDaoImpl(sessionFactory);
+
+        mockHibernateParam(hibernateParam);
+        genericDao = new GenericDaoImpl(hibernateParam.sessionFactory);
 
 
     }
@@ -62,31 +61,31 @@ public class GenericDaoImplTest {
     @Test
     public void testSaveOrUpdateStringData() throws Exception {
         for (String testStringData : TEST_STRING_DATAS) {
-            mockCurrentSession(sessionFactory, session);
+            mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
             genericDao.saveOrUpdate(testStringData);
-            verify(session).saveOrUpdate(testStringData);
+            verify(hibernateParam.session).saveOrUpdate(testStringData);
         }
     }
 
     @Test
     public void testSaveOrUpdateIntegerData() throws Exception {
         for (Integer testIntegerData : TEST_INTEGER_DATAS) {
-            mockCurrentSession(sessionFactory, session);
+            mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
             genericDao.saveOrUpdate(testIntegerData);
-            verify(session).saveOrUpdate(testIntegerData);
+            verify(hibernateParam.session).saveOrUpdate(testIntegerData);
         }
     }
 
     @Test
     public void testExecuteNamedQuery() throws Exception {
-        mockCurrentSession(sessionFactory, session);
-        when(session.getNamedQuery(TEST_STRING)).thenReturn(query);
-        mockTestIntegerList(query);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.getNamedQuery(TEST_STRING)).thenReturn(hibernateParam.query);
+        mockTestIntegerList(hibernateParam.query);
         List<Integer> integerList = genericDao.executeNamedQuery(TEST_STRING, Integer.class);
         assertEquals(TEST_INTEGER_LIST, integerList);
-        verify(query).list();
-        verify(session).getNamedQuery(TEST_STRING);
-        verify(sessionFactory).getCurrentSession();
+        verify(hibernateParam.query).list();
+        verify(hibernateParam.session).getNamedQuery(TEST_STRING);
+        verify(hibernateParam.sessionFactory).getCurrentSession();
     }
 
     @Test
@@ -101,9 +100,9 @@ public class GenericDaoImplTest {
     @Test
     public void testFindUniqueObject() throws Exception {
         mockQuery();
-        when(query.list()).thenReturn(Collections.singletonList(TEST_STRING));
-        String test = genericDao.findUniqueObject(TEST_STRING,String.class);
-        assertEquals(TEST_STRING,test);
+        when(hibernateParam.query.list()).thenReturn(Collections.singletonList(TEST_STRING));
+        String test = genericDao.findUniqueObject(TEST_STRING, String.class);
+        assertEquals(TEST_STRING, test);
         verifyExecuteQuery();
     }
 
@@ -116,59 +115,60 @@ public class GenericDaoImplTest {
 
     @Test(expected = IncorrectResultException.class)
     public void testFindUniqueObjectWithNull() throws Exception {
-        mockCurrentSession(sessionFactory, session);
-        when(session.createQuery(TEST_STRING)).thenReturn(query);
-        when(query.list()).thenReturn(null);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.createQuery(TEST_STRING)).thenReturn(hibernateParam.query);
+        when(hibernateParam.query.list()).thenReturn(null);
         genericDao.findUniqueObject(TEST_STRING, Integer.class);
 
     }
 
     @Test(expected = IncorrectResultException.class)
     public void testFindUniqueObjectWithEmptyList() throws Exception {
-        mockCurrentSession(sessionFactory, session);
-        when(session.createQuery(TEST_STRING)).thenReturn(query);
-        when(query.list()).thenReturn(Collections.EMPTY_LIST);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.createQuery(TEST_STRING)).thenReturn(hibernateParam.query);
+        when(hibernateParam.query.list()).thenReturn(Collections.EMPTY_LIST);
         genericDao.findUniqueObject(TEST_STRING, Integer.class);
 
     }
 
     @Test
     public void testFindByID() throws Exception {
-        mockCurrentSession(sessionFactory,session);
-        when(session.load(String.class,TEST_INTEGER)).thenReturn(TEST_STRING);
-        String test = genericDao.findByID(TEST_INTEGER,String.class);
-        assertEquals(test,TEST_STRING);
-        verify(sessionFactory).getCurrentSession();
-        verify(session).load(String.class,TEST_INTEGER);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.load(String.class, TEST_INTEGER)).thenReturn(TEST_STRING);
+        String test = genericDao.findByID(TEST_INTEGER, String.class);
+        assertEquals(test, TEST_STRING);
+        verify(hibernateParam.sessionFactory).getCurrentSession();
+        verify(hibernateParam.session).load(String.class, TEST_INTEGER);
 
     }
 
     @Test(expected = IdNotFoundException.class)
     public void testFindByIDExpection() throws Exception {
-        mockCurrentSession(sessionFactory,session);
-        when(session.load(String.class,TEST_INTEGER)).thenThrow(HibernateException.class);
-        genericDao.findByID(TEST_INTEGER,String.class);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.load(String.class, TEST_INTEGER)).thenThrow(HibernateException.class);
+        genericDao.findByID(TEST_INTEGER, String.class);
     }
 
     //helper methods move them to
     //separate class if required elsewhere
 
     public void mockQuery() {
-        mockCurrentSession(sessionFactory, session);
-        when(session.createQuery(TEST_STRING)).thenReturn(query);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
+        when(hibernateParam.session.createQuery(TEST_STRING)).thenReturn(hibernateParam.query);
 
     }
 
 
     public void mockQueryWithIntegerList() {
         mockQuery();
-        mockTestIntegerList(query);
+        mockTestIntegerList(hibernateParam.query);
 
     }
+
     public void verifyExecuteQuery() {
-        verify(query).list();
-        verify(session).createQuery(TEST_STRING);
-        verify(sessionFactory).getCurrentSession();
+        verify(hibernateParam.query).list();
+        verify(hibernateParam.session).createQuery(TEST_STRING);
+        verify(hibernateParam.sessionFactory).getCurrentSession();
 
     }
 

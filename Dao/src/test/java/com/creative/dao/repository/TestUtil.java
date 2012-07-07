@@ -40,6 +40,24 @@ public class TestUtil {
     public static final List<String> TEST_STRING_LIST = Arrays.asList(TEST_STRING_DATAS);
     public static final List<Integer> TEST_INTEGER_LIST = Arrays.asList(TEST_INTEGER_DATAS);
 
+    public static class HibernateParam {
+        public SessionFactory sessionFactory;
+        public Session session;
+        public Query query;
+
+        public HibernateParam() {
+            this.sessionFactory = sessionFactory;
+            this.session = session;
+            this.query = query;
+        }
+    }
+
+    public static void mockHibernateParam(HibernateParam param) {
+        param.sessionFactory = mock(SessionFactory.class);
+        param.session = mock(Session.class);
+        param.query = mock(Query.class);
+    }
+
     public static void mockCurrentSession(SessionFactory sessionFactory, Session session) {
         when(sessionFactory.getCurrentSession()).thenReturn(session);
     }

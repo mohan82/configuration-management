@@ -32,7 +32,7 @@ import java.util.List;
 /**
  * @author mohan
  */
-@Named("jdbcUtil")
+@Named("genericDao")
 @Singleton
 /***
  * Generic dao impl class for generic CRUD operations
