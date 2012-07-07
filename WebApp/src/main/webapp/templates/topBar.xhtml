@@ -10,7 +10,7 @@
   ~   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   ~   See the License for the specific language governing permissions and
   ~  limitations under the License
-  -->
+-->
 
 <!--
   Created by IntelliJ IDEA.
@@ -19,39 +19,37 @@
   Time: 5:26 PM
 -->
 <!DOCTYPE html
-        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html" xmlns:ui="http://java.sun.com/jsf/facelets">
 
-<h:head>
-    <title>Simple JSF Facelets page</title>
-</h:head>
+    <h:head>
+        <title>Simple JSF Facelets page</title>
+    </h:head>
 
-<h:body>
-    <ui:composition>
-        <ul class="nav nav-list">
-            <li><h6>Time</h6>
-                <ul class="nav nav-list">
-                    <li>
-                       <h:link>
-                         <i class="icon-align-right"/>
-                            Properties
-                       </h:link>
-                    </li>
-                </ul>
-            </li>
-            <li>
-                <h6>Population</h6>
-                <ul class="nav nav-list">
-                    <h:link>
-                        <i class="icon-align-right"/>
-                             Files
-                    </h:link>
-                </ul>
-            </li>
-        </ul>
-    </ui:composition>
-</h:body>
+    <h:body>
+        <ui:composition>        
+            <div class="navbar navbar-fixed-top">
+                <div class="navbar-inner">
+                    <div class="container-fluid">
+                        <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </a>
+                        <a class="brand" href="#">Configuration Management</a>          
+                        <div class="nav-collapse">
+                            <ul class="nav">
+                                <li><h:link outcome="environment">Environment</h:link></li>
+                                <li><a href="#about">Properties</a></li>
+                                <li><a href="#contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ui:composition>
+    </h:body>
 </html>

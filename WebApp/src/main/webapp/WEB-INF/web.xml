@@ -51,10 +51,7 @@
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
     </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>/faces/index.html</url-pattern>
-    </servlet-mapping>
+
     <!-- End JSF Config -->
 
     <!--- JAX-RS Config -->

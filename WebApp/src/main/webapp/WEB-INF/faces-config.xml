@@ -21,5 +21,12 @@
         <el-resolver>
             org.springframework.web.jsf.el.SpringBeanFacesELResolver
         </el-resolver>
-    </application>        
+    </application> 
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>environment</from-outcome>
+            <to-view-id>/jsf/environment.xhtml</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
