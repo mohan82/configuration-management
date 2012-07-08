@@ -13,9 +13,15 @@
 
 package com.creative.dao.entity;
 
+import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.TEST;
+import static com.creative.dao.entity.EntityTestFactory.createEnvironment;
 import com.creative.dao.repository.GenericDao;
+import java.util.List;
+import javax.inject.Inject;
+import javax.inject.Named;
 import org.hibernate.Query;
 import org.junit.After;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,14 +31,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-
-import static com.creative.dao.entity.EntityTestFactory.*;
-import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.*;
-import static org.junit.Assert.*;
-
-import javax.inject.Inject;
-import javax.inject.Named;
-import java.util.List;
 
 
 /**

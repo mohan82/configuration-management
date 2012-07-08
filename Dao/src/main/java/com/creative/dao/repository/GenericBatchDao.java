@@ -13,9 +13,8 @@
 
 package com.creative.dao.repository;
 
-import org.hibernate.Query;
-
 import java.util.List;
+import org.hibernate.Query;
 
 /**
  * Created with IntelliJ IDEA.

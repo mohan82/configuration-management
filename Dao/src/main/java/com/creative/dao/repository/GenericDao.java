@@ -15,9 +15,8 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-import org.hibernate.Query;
-
 import java.util.List;
+import org.hibernate.Query;
 
 /**
  * Created with IntelliJ IDEA.

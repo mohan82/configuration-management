@@ -13,14 +13,13 @@
 
 package com.creative.dao.repository;
 
+import java.util.Arrays;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-
-import java.util.Arrays;
-import java.util.List;
-
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 /**
  * Created with IntelliJ IDEA.
@@ -64,5 +63,8 @@ public class TestUtil {
 
     public static void mockTestIntegerList(Query query) {
         when(query.list()).thenReturn(TEST_INTEGER_LIST);
+    }
+
+    private TestUtil() {
     }
 }

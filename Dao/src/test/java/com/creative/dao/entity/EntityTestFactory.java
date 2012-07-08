@@ -13,11 +13,8 @@
 
 package com.creative.dao.entity;
 
-import java.nio.channels.UnsupportedAddressTypeException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created with IntelliJ IDEA.
@@ -67,6 +64,9 @@ public class EntityTestFactory {
 
     public static final File createFile(String name) {
         return new File(name);
+    }
+
+    private EntityTestFactory() {
     }
 }
 

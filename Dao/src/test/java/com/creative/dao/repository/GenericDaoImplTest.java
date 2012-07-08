@@ -15,19 +15,17 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-import org.hibernate.HibernateException;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-
+import com.creative.dao.repository.TestUtil.HibernateParam;
+import static com.creative.dao.repository.TestUtil.*;
 import java.util.Collections;
 import java.util.List;
-
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-import static com.creative.dao.repository.TestUtil.*;
-
-import com.creative.dao.repository.TestUtil.HibernateParam;
+import org.hibernate.HibernateException;
+import org.junit.After;
+import static org.junit.Assert.assertEquals;
+import org.junit.Before;
+import org.junit.Test;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Created with IntelliJ IDEA.
