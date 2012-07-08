@@ -45,9 +45,7 @@ public class TestUtil {
         public Query query;
 
         public HibernateParam() {
-            this.sessionFactory = sessionFactory;
-            this.session = session;
-            this.query = query;
+
         }
     }
 

@@ -123,10 +123,7 @@ public class Properties implements Serializable {
             return false;
         }
         Properties other = (Properties) object;
-        if ((this.propertiesPk == null && other.propertiesPk != null) || (this.propertiesPk != null && !this.propertiesPk.equals(other.propertiesPk))) {
-            return false;
-        }
-        return true;
+        return !((this.propertiesPk == null && other.propertiesPk != null) || (this.propertiesPk != null && !this.propertiesPk.equals(other.propertiesPk)));
     }
 
     @Override

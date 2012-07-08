@@ -150,8 +150,7 @@ public class GenericDaoImpl implements GenericDao {
     @Override
     public <T> T findByID(Integer id, Class<T> clazz) throws IdNotFoundException {
         try {
-            T t = (T) sessionFactory.getCurrentSession().load(clazz, id);
-            return t;
+            return (T) sessionFactory.getCurrentSession().load(clazz, id);
         } catch (HibernateException e) {
             throw new IdNotFoundException("Cannot load given id :" + id + " for given class :" + clazz, e);
         }

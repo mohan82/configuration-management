@@ -148,10 +148,7 @@ public class PropertiesVersion implements Serializable {
             return false;
         }
         PropertiesVersion other = (PropertiesVersion) object;
-        if ((this.propertiesVersionPk == null && other.propertiesVersionPk != null) || (this.propertiesVersionPk != null && !this.propertiesVersionPk.equals(other.propertiesVersionPk))) {
-            return false;
-        }
-        return true;
+        return !((this.propertiesVersionPk == null && other.propertiesVersionPk != null) || (this.propertiesVersionPk != null && !this.propertiesVersionPk.equals(other.propertiesVersionPk)));
     }
 
     @Override

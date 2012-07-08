@@ -40,7 +40,7 @@ import org.springframework.stereotype.Repository;
 public class GenericBatchDaoImpl implements GenericBatchDao {
     private static final int DEF_BATCH_SIZE = 30;
     private SessionFactory sessionFactory;
-    private Logger logger = LoggerFactory.getLogger(GenericBatchDaoImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(GenericBatchDaoImpl.class);
 
     public GenericBatchDaoImpl(){}
     @Inject
@@ -50,7 +50,7 @@ public class GenericBatchDaoImpl implements GenericBatchDao {
 
     private static enum BatchType {
 
-        BATCH_INSERT, BATCH_DELETE, BATCH_INSERT_OR_UPDATE;
+        BATCH_INSERT, BATCH_DELETE, BATCH_INSERT_OR_UPDATE
     }
 
     @Override

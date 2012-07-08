@@ -32,7 +32,7 @@ public class EntityTestFactory {
         STAGING
     }
 
-    public static final List<Environment> createEnvironments() {
+    public static List<Environment> createEnvironments() {
         EnvironmentEnum[] enums = EnvironmentEnum.values();
         List<Environment> environmentList = new ArrayList<Environment>(enums.length);
         for (EnvironmentEnum environmentEnumE : enums) {
@@ -41,7 +41,7 @@ public class EntityTestFactory {
         return environmentList;
     }
 
-    public static final Environment createEnvironment(String name) {
+    public static Environment createEnvironment(String name) {
         return new Environment(name);
 
     }
@@ -49,10 +49,10 @@ public class EntityTestFactory {
     public static enum FileEnum {
         CONFIG_FILE,
         CODE_FILE,
-        XML_FILE, CSV_FILE;
+        XML_FILE, CSV_FILE
     }
 
-    public static final List<File> createFiles() {
+    public static List<File> createFiles() {
         FileEnum[] files = FileEnum.values();
         List<File> fileList = new ArrayList<File>(files.length);
         for (FileEnum fileEnum : files) {
@@ -62,7 +62,7 @@ public class EntityTestFactory {
         return fileList;
     }
 
-    public static final File createFile(String name) {
+    public static File createFile(String name) {
         return new File(name);
     }
 

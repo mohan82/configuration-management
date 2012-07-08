@@ -93,9 +93,8 @@ public class Environment implements Serializable {
         Environment that = (Environment) o;
 
         if (!environmentPk.equals(that.environmentPk)) return false;
-        if (!name.equals(that.name)) return false;
+        return name.equals(that.name);
 
-        return true;
     }
 
     @Override

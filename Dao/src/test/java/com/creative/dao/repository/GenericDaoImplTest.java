@@ -37,7 +37,7 @@ import static org.mockito.Mockito.when;
 public class GenericDaoImplTest {
     private GenericDao genericDao;
 
-    private HibernateParam hibernateParam = new HibernateParam();
+    private final HibernateParam hibernateParam = new HibernateParam();
 
     @Before
     public void setUp() throws Exception {
