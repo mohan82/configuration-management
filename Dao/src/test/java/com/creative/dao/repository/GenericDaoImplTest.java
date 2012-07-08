@@ -15,15 +15,16 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-import com.creative.dao.repository.TestUtil.HibernateParam;
-import static com.creative.dao.repository.TestUtil.*;
-import java.util.Collections;
-import java.util.List;
+import com.creative.dao.repository.TestUtil.*;
 import org.hibernate.HibernateException;
 import org.junit.After;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Collections;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -105,7 +106,7 @@ public class GenericDaoImplTest {
 
     @Test
     public void testDeleteObject() throws Exception {
-        mockCurrentSession(hibernateParam.sessionFactory,hibernateParam.session);
+        mockCurrentSession(hibernateParam.sessionFactory, hibernateParam.session);
         genericDao.deleteObject(TEST_INTEGER);
         verify(hibernateParam.session).delete(TEST_INTEGER);
     }
@@ -143,6 +144,16 @@ public class GenericDaoImplTest {
         genericDao.findUniqueObject(TEST_STRING, Integer.class);
 
     }
+
+    @Test
+    public void testFindUniqueObjectByQuery() throws Exception {
+
+        when(hibernateParam.query.list()).thenReturn(Collections.singletonList(TEST_INTEGER));
+        Integer testValue = genericDao.findUniqueObject(hibernateParam.query, Integer.class);
+        assertEquals(testValue.intValue(), TEST_INTEGER);
+        verify(hibernateParam.query).list();
+    }
+
 
     @Test
     public void testFindByID() throws Exception {

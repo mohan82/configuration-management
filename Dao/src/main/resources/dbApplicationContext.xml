@@ -14,15 +14,13 @@
 
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
 
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                               http://www.springframework.org/schema/beans/spring-beans.xsd
-                                 http://www.springframework.org/schema/context
-                               http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+                               http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <context:component-scan base-package="com.creative.dao"/>
-
+    <bean id="hibernateBatchSize" class="java.lang.Integer">
+        <constructor-arg value="50"/>
+    </bean>
     <bean id="propertyPlaceHolder"
           class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -31,7 +29,6 @@
             </list>
         </property>
     </bean>
-
 
     <bean id="mainDataSource" class="com.jolbox.bonecp.BoneCPDataSource" destroy-method="close"
           scope="singleton">

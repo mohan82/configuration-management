@@ -13,14 +13,15 @@
 
 package com.creative.dao.repository;
 
-import java.util.List;
-import javax.inject.Inject;
 import org.hibernate.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,7 +31,7 @@ import org.springframework.stereotype.Repository;
  *
  */
 
-/***
+/**
  * A Simple Generic Batch Util class which provides
  * batch insert/update/delete  batch operations for
  * any hibernate classes
@@ -41,11 +42,16 @@ public class GenericBatchDaoImpl implements GenericBatchDao {
     private static final int DEF_BATCH_SIZE = 30;
     private SessionFactory sessionFactory;
     private final Logger logger = LoggerFactory.getLogger(GenericBatchDaoImpl.class);
+    private int batchSize;
 
-    public GenericBatchDaoImpl(){}
-    @Inject
-    public GenericBatchDaoImpl(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
+    @Autowired
+    public GenericBatchDaoImpl(@Qualifier("sessionFactory") SessionFactory sessionFactory,
+                               @Qualifier("hibernateBatchSize") int batchSize) {
         this.sessionFactory = sessionFactory;
+        this.batchSize = batchSize;
+        if (this.batchSize < DEF_BATCH_SIZE) {
+            this.batchSize = DEF_BATCH_SIZE;
+        }
     }
 
     private static enum BatchType {
@@ -87,7 +93,7 @@ public class GenericBatchDaoImpl implements GenericBatchDao {
         session.setCacheMode(CacheMode.IGNORE);
         session.setFlushMode(FlushMode.MANUAL);
         logger.info("Executing  Batch of size :" + list.size()
-                + " given batch size is:" +DEF_BATCH_SIZE
+                + " given batch size is:" + batchSize
         );
 
         for (int i = 0; i < list.size(); i++) {
@@ -103,7 +109,7 @@ public class GenericBatchDaoImpl implements GenericBatchDao {
                 default:
                     // nothing;
             }
-            if (i > 0 && i % DEF_BATCH_SIZE == 0) {
+            if (i > 0 && i % batchSize == 0) {
                 logger.info("Flushing and clearing the cache"
                         + " after row number :" + i);
                 session.flush();

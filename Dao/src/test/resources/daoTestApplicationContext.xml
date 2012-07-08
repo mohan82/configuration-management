@@ -23,7 +23,7 @@
 
 
     <import resource="classpath:dbApplicationContext.xml"/>
-
+    <context:component-scan base-package="com.creative.dao"/>
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean"
           scope="singleton">
         <property name="configLocation" value="classpath:hibernate-test.cfg.xml"/>

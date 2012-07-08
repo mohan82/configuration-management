@@ -15,8 +15,9 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-import java.util.List;
 import org.hibernate.Query;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
@@ -39,6 +40,8 @@ public interface GenericDao {
     <T> List<T> executeQuery(String query, Class<T> clazz);
 
     <T> T findUniqueObject(String query, Class<T> clazz) throws IncorrectResultException;
+
+    <T> T findUniqueObject(Query query, Class<T> clazz) throws IncorrectResultException;
 
     <T> T findByID(Integer id, Class<T> clazz) throws IdNotFoundException;
 }

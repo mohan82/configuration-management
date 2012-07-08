@@ -13,24 +13,29 @@
 
 package com.creative.dao.entity;
 
-import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.TEST;
-import static com.creative.dao.entity.EntityTestFactory.createEnvironment;
+import com.creative.dao.exceptions.IncorrectResultException;
 import com.creative.dao.repository.GenericDao;
-import java.util.List;
-import javax.inject.Inject;
-import javax.inject.Named;
 import org.hibernate.Query;
 import org.junit.After;
-import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+
+import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.TEST;
+import static com.creative.dao.entity.EntityTestFactory.createEnvironment;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 
 /**
@@ -40,6 +45,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Time: 11:01 PM
  * To change this template use File | Settings | File Templates.
  */
+
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"classpath:daoTestApplicationContext.xml"})
 @TransactionConfiguration(transactionManager = "transactionManager", defaultRollback = true)
@@ -47,15 +53,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class EnvironmentIntegrationTest {
     private static final Logger logger = LoggerFactory.getLogger(EnvironmentIntegrationTest.class);
     private GenericDao genericDao;
+    private EntityTestHelper entityTestHelper;
 
 
     public EnvironmentIntegrationTest() {
 
     }
 
-    @Inject
-    public void init(@Named("genericDao") GenericDao genericDao) {
+    @Autowired
+    public void init(@Qualifier("genericDao") GenericDao genericDao,
+                     @Qualifier("entityTesHelper") EntityTestHelper entityTestHelper) {
         this.genericDao = genericDao;
+        this.entityTestHelper = entityTestHelper;
     }
 
     @Before
@@ -72,25 +81,24 @@ public class EnvironmentIntegrationTest {
     }
 
     @Test
-    public void testGetEnvironment() {
+    public void testGetEnvironment() throws IncorrectResultException {
         logger.info("Test Get All Environments");
-        List<Environment> environmentList = genericDao.executeNamedQueryWithOutParams("Environment.findAll", Environment.class);
+        List<Environment> environmentList = entityTestHelper.getAllEnvironments();
         testEnvironment(environmentList);
         logger.info("Test Get Environment By PK ");
         Query querybyPK = genericDao.getNamedQuery("Environment.findByEnvironmentPk").setInteger("environmentPk", environmentList.get(0).getEnvironmentPk());
         testEnvironment(genericDao.executeQuery(querybyPK, Environment.class));
         logger.info("Test Get Environment By Name ");
-        Query querybyName = genericDao.getNamedQuery("Environment.findByName").setString("name", environmentList.get(0).getName());
-        testEnvironment(genericDao.executeQuery(querybyName, Environment.class));
+        testEnvironment(Collections.singletonList(entityTestHelper.getEnvironmentByName(environmentList.get(0).getName())));
     }
 
     @Test
     public void deleteEnvironment() {
         logger.info("Deleting Environment");
-        List<Environment> environmentList = genericDao.executeNamedQueryWithOutParams("Environment.findAll", Environment.class);
+        List<Environment> environmentList = entityTestHelper.getAllEnvironments();
         genericDao.deleteObject(environmentList.get(0));
         logger.info("End Deleting Environment");
-        List<Environment> environmentListTest = genericDao.executeNamedQueryWithOutParams("Environment.findAll", Environment.class);
+        List<Environment> environmentListTest = entityTestHelper.getAllEnvironments();
         assertTrue(environmentListTest.isEmpty());
 
 
@@ -99,10 +107,10 @@ public class EnvironmentIntegrationTest {
     public void testEnvironment(List<Environment> environmentList) {
         assertEquals(environmentList.size(), 1);
         for (Environment environment : environmentList) {
+            Integer environmentPK = environment.getEnvironmentPk();
+            assertTrue("Environment PK cannot be Null and must be >0", (environmentPK != null && environmentPK > 0));
             assertEquals(environment.getName(), TEST.name());
         }
-
-
     }
 
 }

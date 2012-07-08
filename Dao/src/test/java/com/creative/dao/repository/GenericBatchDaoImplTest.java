@@ -13,13 +13,13 @@
 
 package com.creative.dao.repository;
 
-import com.creative.dao.repository.TestUtil.HibernateParam;
-import static com.creative.dao.repository.TestUtil.*;
+import com.creative.dao.repository.TestUtil.*;
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
-import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -40,7 +40,7 @@ public class GenericBatchDaoImplTest {
     public void init() {
         hibernateParam = new HibernateParam();
         mockHibernateParam(hibernateParam);
-        genericBatchDao = new GenericBatchDaoImpl(hibernateParam.sessionFactory);
+        genericBatchDao = new GenericBatchDaoImpl(hibernateParam.sessionFactory, 10);
     }
 
 

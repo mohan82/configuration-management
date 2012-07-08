@@ -19,15 +19,16 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-import java.util.List;
-import javax.inject.Inject;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
+
+import java.util.List;
 
 /**
  * @author mohan
@@ -41,13 +42,10 @@ public class GenericDaoImpl implements GenericDao {
 
     private SessionFactory sessionFactory;
 
-    public GenericDaoImpl() {
-    }
-
     /**
      * @param sessionFactory
      */
-    @Inject
+    @Autowired
     public GenericDaoImpl(@Qualifier("sessionFactory") SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
@@ -66,7 +64,6 @@ public class GenericDaoImpl implements GenericDao {
     }
 
     /**
-     *
      * @param t
      * @param <T>
      */
@@ -128,6 +125,10 @@ public class GenericDaoImpl implements GenericDao {
     @Override
     public <T> T findUniqueObject(String query, Class<T> clazz) throws IncorrectResultException {
         List<T> list = executeQuery(query, clazz);
+        return getUniqueObject(list, query);
+    }
+
+    private <T> T getUniqueObject(List<T> list, String query) throws IncorrectResultException {
         if (CollectionUtils.isEmpty(list)) {
             throw new IncorrectResultException("Result set is empty for given query :" + query);
         } else if (list.size() > 1) {
@@ -135,6 +136,11 @@ public class GenericDaoImpl implements GenericDao {
         } else {
             return list.get(0);
         }
+    }
+
+    @Override
+    public <T> T findUniqueObject(Query query, Class<T> clazz) throws IncorrectResultException {
+        return getUniqueObject((List<T>) query.list(), query.getQueryString());
     }
 
     /**

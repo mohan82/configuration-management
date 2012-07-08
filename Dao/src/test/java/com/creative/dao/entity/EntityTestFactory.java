@@ -42,8 +42,9 @@ public class EntityTestFactory {
     }
 
     public static Environment createEnvironment(String name) {
-        return new Environment(name);
-
+        Environment environment = new Environment(name);
+        createFiles(environment);
+        return environment;
     }
 
     public static enum FileEnum {
@@ -52,18 +53,21 @@ public class EntityTestFactory {
         XML_FILE, CSV_FILE
     }
 
-    public static List<File> createFiles() {
+    public static List<File> createFiles(Environment environment) {
         FileEnum[] files = FileEnum.values();
         List<File> fileList = new ArrayList<File>(files.length);
         for (FileEnum fileEnum : files) {
-            fileList.add(createFile(fileEnum.name()));
+            fileList.add(createFile(fileEnum.name(), environment));
 
         }
+        environment.setFileCollection(fileList);
         return fileList;
     }
 
-    public static File createFile(String name) {
-        return new File(name);
+    public static File createFile(String name, Environment environment) {
+        File file = new File(name);
+        file.setEnvironmentFk(environment);
+        return file;
     }
 
     private EntityTestFactory() {
