@@ -13,7 +13,8 @@
 
 package com.creative.dao.repository;
 
-import com.creative.dao.repository.TestUtil.*;
+import static com.creative.dao.repository.TestUtil.*;
+
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.junit.Before;

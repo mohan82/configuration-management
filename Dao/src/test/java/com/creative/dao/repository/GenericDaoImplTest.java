@@ -15,7 +15,9 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-import com.creative.dao.repository.TestUtil.*;
+
+import static com.creative.dao.repository.TestUtil.*;
+
 import org.hibernate.HibernateException;
 import org.junit.After;
 import org.junit.Before;
