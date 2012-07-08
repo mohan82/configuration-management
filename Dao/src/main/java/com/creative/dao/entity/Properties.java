@@ -17,25 +17,24 @@
  */
 package com.creative.dao.entity;
 
-import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
- *
  * @author mohan
  */
 @Entity
-@Table(name = "properties", catalog = "cm",uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"name"})})
+@Table(name = "properties", catalog = "cm", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"name"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p"),
-    @NamedQuery(name = "Properties.findByPropertiesPk", query = "SELECT p FROM Properties p WHERE p.propertiesPk = :propertiesPk"),
-    @NamedQuery(name = "Properties.findByName", query = "SELECT p FROM Properties p WHERE p.name = :name"),
-    @NamedQuery(name = "Properties.findByValue", query = "SELECT p FROM Properties p WHERE p.value = :value")})
+        @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p"),
+        @NamedQuery(name = "Properties.findByPropertiesPk", query = "SELECT p FROM Properties p WHERE p.propertiesPk = :propertiesPk"),
+        @NamedQuery(name = "Properties.findByName", query = "SELECT p FROM Properties p WHERE p.name = :name"),
+        @NamedQuery(name = "Properties.findByValue", query = "SELECT p FROM Properties p WHERE p.value = :value")})
 public class Properties implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -110,25 +109,28 @@ public class Properties implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (propertiesPk != null ? propertiesPk.hashCode() : 0);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Properties that = (Properties) o;
+
+        if (fileFk != null ? !fileFk.equals(that.fileFk) : that.fileFk != null) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+
+        return true;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Properties)) {
-            return false;
-        }
-        Properties other = (Properties) object;
-        return !((this.propertiesPk == null && other.propertiesPk != null) || (this.propertiesPk != null && !this.propertiesPk.equals(other.propertiesPk)));
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (fileFk != null ? fileFk.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
         return "com.creative.dao.entity.Properties[ propertiesPk=" + propertiesPk + " ]";
     }
-    
+
 }

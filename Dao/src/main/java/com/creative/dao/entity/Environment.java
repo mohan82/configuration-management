@@ -17,11 +17,11 @@
  */
 package com.creative.dao.entity;
 
-import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
  * @author mohan
@@ -85,6 +85,7 @@ public class Environment implements Serializable {
         this.fileCollection = fileCollection;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,16 +93,14 @@ public class Environment implements Serializable {
 
         Environment that = (Environment) o;
 
-        if (!environmentPk.equals(that.environmentPk)) return false;
-        return name.equals(that.name);
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
 
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = environmentPk.hashCode();
-        result = 31 * result + name.hashCode();
-        return result;
+        return name != null ? name.hashCode() : 0;
     }
 
     @Override

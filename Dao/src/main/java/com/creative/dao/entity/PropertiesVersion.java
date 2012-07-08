@@ -17,27 +17,26 @@
  */
 package com.creative.dao.entity;
 
-import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
+import java.io.Serializable;
+import java.util.Collection;
 
 /**
- *
  * @author mohan
  */
 @Entity
 @Table(name = "properties_version", catalog = "cm", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"new_value"}),
-    @UniqueConstraint(columnNames = {"old_value"})})
+        @UniqueConstraint(columnNames = {"new_value"}),
+        @UniqueConstraint(columnNames = {"old_value"})})
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "PropertiesVersion.findAll", query = "SELECT p FROM PropertiesVersion p"),
-    @NamedQuery(name = "PropertiesVersion.findByPropertiesVersionPk", query = "SELECT p FROM PropertiesVersion p WHERE p.propertiesVersionPk = :propertiesVersionPk"),
-    @NamedQuery(name = "PropertiesVersion.findByName", query = "SELECT p FROM PropertiesVersion p WHERE p.name = :name"),
-    @NamedQuery(name = "PropertiesVersion.findByOldValue", query = "SELECT p FROM PropertiesVersion p WHERE p.oldValue = :oldValue"),
-    @NamedQuery(name = "PropertiesVersion.findByNewValue", query = "SELECT p FROM PropertiesVersion p WHERE p.newValue = :newValue")})
+        @NamedQuery(name = "PropertiesVersion.findAll", query = "SELECT p FROM PropertiesVersion p"),
+        @NamedQuery(name = "PropertiesVersion.findByPropertiesVersionPk", query = "SELECT p FROM PropertiesVersion p WHERE p.propertiesVersionPk = :propertiesVersionPk"),
+        @NamedQuery(name = "PropertiesVersion.findByName", query = "SELECT p FROM PropertiesVersion p WHERE p.name = :name"),
+        @NamedQuery(name = "PropertiesVersion.findByOldValue", query = "SELECT p FROM PropertiesVersion p WHERE p.oldValue = :oldValue"),
+        @NamedQuery(name = "PropertiesVersion.findByNewValue", query = "SELECT p FROM PropertiesVersion p WHERE p.newValue = :newValue")})
 public class PropertiesVersion implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -135,25 +134,31 @@ public class PropertiesVersion implements Serializable {
     }
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (propertiesVersionPk != null ? propertiesVersionPk.hashCode() : 0);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PropertiesVersion that = (PropertiesVersion) o;
+
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (propertiesFk != null ? !propertiesFk.equals(that.propertiesFk) : that.propertiesFk != null) return false;
+        if (propertiesVersionPk != null ? !propertiesVersionPk.equals(that.propertiesVersionPk) : that.propertiesVersionPk != null)
+            return false;
+
+        return true;
     }
 
     @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PropertiesVersion)) {
-            return false;
-        }
-        PropertiesVersion other = (PropertiesVersion) object;
-        return !((this.propertiesVersionPk == null && other.propertiesVersionPk != null) || (this.propertiesVersionPk != null && !this.propertiesVersionPk.equals(other.propertiesVersionPk)));
+    public int hashCode() {
+        int result = propertiesVersionPk != null ? propertiesVersionPk.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        result = 31 * result + (propertiesFk != null ? propertiesFk.hashCode() : 0);
+        return result;
     }
 
     @Override
     public String toString() {
         return "com.creative.dao.entity.PropertiesVersion[ propertiesVersionPk=" + propertiesVersionPk + " ]";
     }
-    
+
 }
