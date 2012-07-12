@@ -28,13 +28,12 @@ import java.util.Collection;
  */
 @Entity
 @Table(name = "properties", catalog = "cm", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name"})})
+        @UniqueConstraint(columnNames = {"name", "file_fk"})})
 @XmlRootElement
 @NamedQueries({
         @NamedQuery(name = "Properties.findAll", query = "SELECT p FROM Properties p"),
-        @NamedQuery(name = "Properties.findByPropertiesPk", query = "SELECT p FROM Properties p WHERE p.propertiesPk = :propertiesPk"),
         @NamedQuery(name = "Properties.findByName", query = "SELECT p FROM Properties p WHERE p.name = :name"),
-        @NamedQuery(name = "Properties.findByValue", query = "SELECT p FROM Properties p WHERE p.value = :value")})
+})
 public class Properties implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

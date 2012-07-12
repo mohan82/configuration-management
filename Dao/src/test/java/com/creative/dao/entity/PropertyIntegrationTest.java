@@ -13,8 +13,10 @@
 
 package com.creative.dao.entity;
 
+import com.creative.dao.exceptions.IncorrectResultException;
 import com.creative.dao.repository.GenericDao;
 import com.google.common.collect.Sets;
+import org.hibernate.Query;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,6 +33,8 @@ import org.springframework.util.CollectionUtils;
 import static com.creative.dao.repository.TestUtil.*;
 import static org.junit.Assert.*;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Set;
 
 import static com.creative.dao.entity.EntityTestFactory.*;
@@ -50,6 +54,7 @@ public class PropertyIntegrationTest {
     private static final Logger logger = LoggerFactory.getLogger(PropertyIntegrationTest.class);
     private GenericDao genericDao;
     private EntityTestHelper entityTestHelper;
+    private Environment environment;
 
     public PropertyIntegrationTest() {
     }
@@ -63,7 +68,7 @@ public class PropertyIntegrationTest {
 
     @Before
     public void setUp() {
-        Environment environment = createTestEnvironmentWithProperties();
+        environment = createTestEnvironmentWithProperties();
         genericDao.saveOrUpdate(environment);
     }
 
@@ -83,6 +88,46 @@ public class PropertyIntegrationTest {
 
     @Test
     public void testGetAllProperties() {
+        logger.info("Test Get All Properties");
+        List<Properties> propertiesList = genericDao.executeNamedQueryWithOutParams("Properties.findAll", Properties.class);
+        testProperties(propertiesList);
+        logger.info(" End Test Get All Properties");
+    }
 
+    @Test
+    public void testPropertyQueryByName() throws IncorrectResultException {
+        logger.info("testPropertyQueryByName");
+        Properties testProperty = environment.getFileCollection().iterator().next().
+                getPropertiesCollection().iterator().next();
+        Query query = genericDao.getNamedQuery("Properties.findByName").
+                setString("name", testProperty.getName());
+        List<Properties> properties = genericDao.executeQuery(query, Properties.class);
+        testProperties(properties);
+        logger.info(" End testPropertyQueryByName");
+
+    }
+
+    @Test
+    public void deleteProperty() {
+        logger.info("Deleting Property");
+        List<Properties> propertiesList = genericDao.executeNamedQueryWithOutParams("Properties.findAll", Properties.class);
+        int expectedPropertiesList = propertiesList.size() - 1;
+        Properties properties = propertiesList.get(0);
+        properties.getFileFk().getPropertiesCollection().remove(properties);
+        genericDao.deleteObject(properties);
+        List<Properties> afterDeletePropertiesList = genericDao.executeNamedQueryWithOutParams("Properties.findAll", Properties.class);
+        assertEquals(expectedPropertiesList, afterDeletePropertiesList.size());
+        logger.info("End Deleting Property");
+    }
+
+    public void testProperties(List<Properties> propertiesList) {
+        for (Properties properties : propertiesList) {
+            assertTrue("Properties PK cannot be null", properties.getPropertiesPk() != null);
+            assertTrue("Properties PK should be greater than zero", properties.getPropertiesPk().intValue() > 0);
+            assertTrue("File cannot be null", properties.getFileFk() != null);
+            assertTrue("Name should contain :" + TEST_STRING, properties.getName().contains(TEST_STRING));
+            int value = Integer.valueOf(properties.getValue());
+            assertTrue("Value should be >1 and <100", value >= 1 && value <= 100);
+        }
     }
 }

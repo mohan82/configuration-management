@@ -27,9 +27,7 @@ import java.util.Collection;
  * @author mohan
  */
 @Entity
-@Table(name = "properties_version", catalog = "cm", uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"new_value"}),
-        @UniqueConstraint(columnNames = {"old_value"})})
+@Table(name = "properties_version", catalog = "cm")
 @XmlRootElement
 @NamedQueries({
         @NamedQuery(name = "PropertiesVersion.findAll", query = "SELECT p FROM PropertiesVersion p"),
