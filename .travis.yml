@@ -1,4 +1,4 @@
 language: java
 jdk:
   - openjdk6
-test: mvn test
+install: mvn clean install
