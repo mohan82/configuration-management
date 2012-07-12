@@ -30,7 +30,9 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.TEST;
 import static com.creative.dao.entity.EntityTestFactory.createEnvironment;
@@ -104,6 +106,15 @@ public class EnvironmentIntegrationTest {
 
     }
 
+    @Test
+    public void testUniqueness() {
+        Set<Environment> environmentSet = new HashSet<Environment>();
+        for (int i = 0; i < 100; i++) {
+            environmentSet.add(new Environment(TEST.name()));
+        }
+        assertEquals(environmentSet.size(), 1);
+    }
+
     public void testEnvironment(List<Environment> environmentList) {
         assertEquals(environmentList.size(), 1);
         for (Environment environment : environmentList) {
@@ -112,5 +123,6 @@ public class EnvironmentIntegrationTest {
             assertEquals(environment.getName(), TEST.name());
         }
     }
+
 
 }

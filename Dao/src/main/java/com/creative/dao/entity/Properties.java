@@ -67,6 +67,11 @@ public class Properties implements Serializable {
         this.value = value;
     }
 
+    public Properties(String name, String value) {
+        this.name = name;
+        this.value = value;
+    }
+
     public Integer getPropertiesPk() {
         return propertiesPk;
     }
@@ -117,13 +122,15 @@ public class Properties implements Serializable {
 
         if (fileFk != null ? !fileFk.equals(that.fileFk) : that.fileFk != null) return false;
         if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        if (propertiesPk != null ? !propertiesPk.equals(that.propertiesPk) : that.propertiesPk != null) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
+        int result = propertiesPk != null ? propertiesPk.hashCode() : 0;
+        result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (fileFk != null ? fileFk.hashCode() : 0);
         return result;
     }

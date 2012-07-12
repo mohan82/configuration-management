@@ -15,6 +15,8 @@ package com.creative.dao.entity;
 
 import com.creative.dao.exceptions.IncorrectResultException;
 import com.creative.dao.repository.GenericDao;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import org.hibernate.Query;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,6 +31,7 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 import static com.creative.dao.entity.EntityTestFactory.EnvironmentEnum.TEST;
 import static com.creative.dao.entity.EntityTestFactory.FileEnum;
@@ -110,6 +113,18 @@ public class FileIntegrationTest {
         List<File> afterDeletedFileList = genericDao.executeNamedQueryWithOutParams("File.findAll", File.class);
         assertEquals(expectedFileList, afterDeletedFileList.size());
         logger.info("End Deleting File");
+    }
+
+    @Test
+    public void testUniqueness() {
+        Set<File> fileSet = Sets.newHashSetWithExpectedSize(100);
+        for (int i = 0; i < 100; i++) {
+            File file = new File(TEST.name());
+            Environment environment = new Environment(TEST.name());
+            file.setEnvironmentFk(environment);
+            fileSet.add(file);
+        }
+        assertEquals(fileSet.size(), 1);
     }
 
 

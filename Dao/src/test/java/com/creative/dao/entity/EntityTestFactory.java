@@ -13,8 +13,15 @@
 
 package com.creative.dao.entity;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.creative.dao.repository.TestUtil;
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets;
+
+import java.util.Collection;
+import java.util.Set;
+import java.util.Random;
+import java.util.Set;
 
 /**
  * Created with IntelliJ IDEA.
@@ -23,7 +30,11 @@ import java.util.List;
  * Time: 11:31 PM
  * To change this template use File | Settings | File Templates.
  */
-public class EntityTestFactory {
+public final class EntityTestFactory {
+
+
+    private EntityTestFactory() {
+    }
 
     public static enum EnvironmentEnum {
         PROD,
@@ -32,19 +43,26 @@ public class EntityTestFactory {
         STAGING
     }
 
-    public static List<Environment> createEnvironments() {
+
+    public static Set<Environment> createEnvironments() {
         EnvironmentEnum[] enums = EnvironmentEnum.values();
-        List<Environment> environmentList = new ArrayList<Environment>(enums.length);
+        Set<Environment> environmentSet = Sets.newHashSetWithExpectedSize(enums.length);
         for (EnvironmentEnum environmentEnumE : enums) {
-            environmentList.add(createEnvironment(environmentEnumE.name()));
+            environmentSet.add(createEnvironment(environmentEnumE.name()));
         }
-        return environmentList;
+        return environmentSet;
     }
+
+    public static Environment createTestEnvironmentWithProperties() {
+
+        Environment environment = createEnvironment(EnvironmentEnum.TEST.name());
+        return addFilesToEnvironmentWithProperties(environment);
+    }
+
 
     public static Environment createEnvironment(String name) {
         Environment environment = new Environment(name);
-        createFiles(environment);
-        return environment;
+        return addFilesToEnvironment(environment);
     }
 
     public static enum FileEnum {
@@ -53,24 +71,65 @@ public class EntityTestFactory {
         XML_FILE, CSV_FILE
     }
 
-    public static List<File> createFiles(Environment environment) {
-        FileEnum[] files = FileEnum.values();
-        List<File> fileList = new ArrayList<File>(files.length);
-        for (FileEnum fileEnum : files) {
-            fileList.add(createFile(fileEnum.name(), environment));
-
-        }
-        environment.setFileCollection(fileList);
-        return fileList;
-    }
-
     public static File createFile(String name, Environment environment) {
         File file = new File(name);
         file.setEnvironmentFk(environment);
         return file;
     }
 
-    private EntityTestFactory() {
+
+    public static Environment addFilesToEnvironment(Environment environment) {
+        FileEnum[] files = FileEnum.values();
+        Set<File> fileSet = Sets.newHashSetWithExpectedSize(files.length);
+        for (FileEnum fileEnum : files) {
+            fileSet.add(createFile(fileEnum.name(), environment));
+        }
+        environment.setFileCollection(fileSet);
+        return environment;
+    }
+
+    public static Environment addFilesToEnvironmentWithProperties(Environment environment) {
+        addFilesToEnvironment(environment);
+        Collection<File> fileCollection = environment.getFileCollection();
+        for (File file : fileCollection) {
+            createTestProperties(file);
+        }
+        return environment;
+
+    }
+
+    private static enum RandomParm {
+        MIN(1),
+        MAX(100),
+        SIZE(100);
+        private int val;
+
+        private RandomParm(int val) {
+            this.val = val;
+        }
+
+        public int val() {
+            return val;
+        }
+    }
+
+    public static Set<Properties> createTestProperties(File file) {
+        Set<Properties> testPropertiesSet = Sets.newHashSet();
+        Random random = new Random();
+
+        for (int i = RandomParm.MIN.val(); i <= RandomParm.MAX.val(); i++) {
+            int randomNum = random.nextInt((RandomParm.MAX.val() - RandomParm.MIN.val()) + 1) + RandomParm.MIN.val();
+            Preconditions.checkArgument(RandomParm.MIN.val() <= randomNum,
+                    "Random Number should be greater than min-" + randomNum);
+            Preconditions.checkArgument(randomNum <= RandomParm.MAX.val(),
+                    "Random Number should be less than max-" + randomNum);
+            Properties properties = new Properties((TestUtil.TEST_STRING + randomNum),
+                    String.valueOf(randomNum));
+            properties.setFileFk(file);
+            testPropertiesSet.add(properties);
+        }
+        file.setPropertiesCollection(testPropertiesSet);
+        return testPropertiesSet;
     }
 }
 
