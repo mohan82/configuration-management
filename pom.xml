@@ -134,22 +134,6 @@
             <name>JBoss repository</name>
             <url>https://repository.jboss.org/nexus/content/groups/public-jboss</url>
         </repository>
-
-        <repository>
-            <id>s2-snapshot</id>
-            <url>http://repository.springsource.com/maven/bundles/snapshot</url>
-            <snapshots>
-                <enabled>true</enabled>
-            </snapshots>
-        </repository>
-        <repository>
-            <id>s2-release</id>
-            <url>http://repository.springsource.com/maven/bundles/release</url>
-        </repository>
-        <repository>
-            <id>s2-external</id>
-            <url>http://repository.springsource.com/maven/bundles/external</url>
-        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
