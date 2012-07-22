@@ -23,6 +23,7 @@ import javax.xml.bind.annotation.XmlTransient;
 import java.io.Serializable;
 import java.util.Collection;
 
+
 /**
  * @author mohan
  */
@@ -31,9 +32,9 @@ import java.util.Collection;
         @UniqueConstraint(columnNames = {"name"})})
 @XmlRootElement
 @NamedQueries({
-        @NamedQuery(name = "Environment.findAll", query = "SELECT e FROM Environment e"),
-        @NamedQuery(name = "Environment.findByEnvironmentPk", query = "SELECT e FROM Environment e WHERE e.environmentPk = :environmentPk"),
-        @NamedQuery(name = "Environment.findByName", query = "SELECT e FROM Environment e WHERE e.name = :name")})
+        @javax.persistence.NamedQuery(name = "Environment.findAll", query = "SELECT e FROM Environment e"),
+        @javax.persistence.NamedQuery(name = "Environment.findByEnvironmentPk", query = "SELECT e FROM Environment e WHERE e.environmentPk = :environmentPk"),
+        @javax.persistence.NamedQuery(name = "Environment.findByName", query = "SELECT e FROM Environment e WHERE e.name = :name")})
 public class Environment implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id

@@ -28,16 +28,15 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
-import static com.creative.dao.repository.TestUtil.*;
-import static org.junit.Assert.*;
-
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import static com.creative.dao.entity.EntityTestFactory.*;
+import static com.creative.dao.entity.EntityTestFactory.createTestEnvironmentWithProperties;
+import static com.creative.dao.repository.TestUtil.TEST_INTEGER;
+import static com.creative.dao.repository.TestUtil.TEST_STRING;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created with IntelliJ IDEA.

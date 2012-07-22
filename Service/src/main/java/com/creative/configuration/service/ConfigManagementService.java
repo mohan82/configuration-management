@@ -11,14 +11,19 @@
  *  limitations under the License
  */
 
-package com.creative.dao.entity;
+package com.creative.configuration.service;
+
+import com.creative.dao.entity.Environment;
+
+import java.util.List;
 
 /**
  * Created with IntelliJ IDEA.
  * User: mohan
- * Date: 8/07/12
- * Time: 11:04 PM
+ * Date: 22/07/12
+ * Time: 6:13 PM
  * To change this template use File | Settings | File Templates.
  */
-public class PropertyVersionIntegrationTest {
+public interface ConfigManagementService {
+    List<Environment> getEnvironments();
 }

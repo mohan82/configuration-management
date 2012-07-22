@@ -15,9 +15,6 @@ package com.creative.dao.repository;
 
 import com.creative.dao.exceptions.IdNotFoundException;
 import com.creative.dao.exceptions.IncorrectResultException;
-
-import static com.creative.dao.repository.TestUtil.*;
-
 import org.hibernate.HibernateException;
 import org.junit.After;
 import org.junit.Before;
@@ -26,6 +23,7 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
+import static com.creative.dao.repository.TestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

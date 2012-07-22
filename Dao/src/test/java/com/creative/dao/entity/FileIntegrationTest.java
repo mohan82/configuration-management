@@ -15,7 +15,6 @@ package com.creative.dao.entity;
 
 import com.creative.dao.exceptions.IncorrectResultException;
 import com.creative.dao.repository.GenericDao;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import org.hibernate.Query;
 import org.junit.Before;

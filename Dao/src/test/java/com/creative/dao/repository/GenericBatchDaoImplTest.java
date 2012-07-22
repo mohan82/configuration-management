@@ -13,13 +13,12 @@
 
 package com.creative.dao.repository;
 
-import static com.creative.dao.repository.TestUtil.*;
-
 import org.hibernate.CacheMode;
 import org.hibernate.FlushMode;
 import org.junit.Before;
 import org.junit.Test;
 
+import static com.creative.dao.repository.TestUtil.*;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;

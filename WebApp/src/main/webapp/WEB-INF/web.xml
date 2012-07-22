@@ -55,6 +55,7 @@
     <!-- End JSF Config -->
 
     <!--- JAX-RS Config -->
+    <!--
     <servlet>
         <servlet-name>jersey-spring-rest</servlet-name>
         <servlet-class>com.sun.jersey.spi.spring.container.servlet.SpringServlet</servlet-class>
@@ -76,6 +77,7 @@
         <servlet-name>jersey-spring-rest</servlet-name>
         <url-pattern>/faces/jsf/resources/*</url-pattern>
     </servlet-mapping>
+    -->
     <!-- End JAX-RS Config -->
 
     <session-config>
